@@ -10,7 +10,7 @@ Built for CritMon Servers Inc. to monitor remote solar farms and unmanned weathe
 
 ![State Flowchart](architecture_diagram.png)
 
-Source Link: ![https://drive.google.com/file/d/1Folxbc0rtolVg-QmOeNo6knG8NzeL0pk/view?usp=sharing](https://drive.google.com/file/d/1Folxbc0rtolVg-QmOeNo6knG8NzeL0pk/view?usp=sharing)
+Source Link: [https://drive.google.com/file/d/1Folxbc0rtolVg-QmOeNo6knG8NzeL0pk/view?usp=sharing](https://drive.google.com/file/d/1Folxbc0rtolVg-QmOeNo6knG8NzeL0pk/view?usp=sharing)
 
 ---
 
