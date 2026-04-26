@@ -30,3 +30,16 @@ def create_monitor():
         return jsonify({"error": str(err)}), 409
 
     return jsonify(monitor.to_dict()), 201
+
+@monitors_bp.route("/monitors/<string:monitor_id>/heartbeat", methods=["POST"])
+def heartbeat(monitor_id):
+    monitor = MonitorService.heartbeat(monitor_id)
+    if not monitor:
+        return jsonify({"error": f"Monitor '{monitor_id}' not found."}), 404
+
+    return jsonify({
+        "id": monitor.id,
+        "status": monitor.status,
+        "deadline": monitor.deadline.isoformat() + "Z" if monitor.deadline else None,
+        "message": "Heartbeat received. Timer reset.",
+    }), 200

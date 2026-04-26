@@ -25,3 +25,19 @@ class MonitorService:
         db.session.add(monitor)
         db.session.commit()
         return monitor
+    
+
+@staticmethod
+def heartbeat(device_id):
+        monitor = db.session.get(Monitor, device_id)
+        if not monitor:
+            return None
+
+        now = _utcnow()
+        monitor.status = MonitorStatus.ACTIVE
+        monitor.deadline = now + timedelta(seconds=monitor.timeout)
+        monitor.last_heartbeat = now
+        monitor.updated_at = now
+
+        db.session.commit()
+        return monitor
