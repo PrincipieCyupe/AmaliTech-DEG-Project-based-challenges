@@ -66,3 +66,22 @@ class MonitorService:
 
         if newly_expired:
             db.session.commit()
+
+    @staticmethod
+    def pause(device_id):
+        monitor = db.session.get(Monitor, device_id)
+        if not monitor:
+            return None
+
+        if monitor.status == MonitorStatus.DOWN:
+            raise ValueError("Cannot pause a DOWN monitor — send a heartbeat first.")
+
+        if monitor.status == MonitorStatus.PAUSED:
+            return monitor  # already paused, no-op
+
+        now = _utcnow()
+        monitor.status = MonitorStatus.PAUSED
+        monitor.deadline = None
+        monitor.updated_at = now
+        db.session.commit()
+        return monitor

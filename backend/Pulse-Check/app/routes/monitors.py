@@ -43,3 +43,19 @@ def heartbeat(monitor_id):
         "deadline": monitor.deadline.isoformat() + "Z" if monitor.deadline else None,
         "message": "Heartbeat received. Timer reset.",
     }), 200
+
+@monitors_bp.route("/monitors/<string:monitor_id>/pause", methods=["POST"])
+def pause_monitor(monitor_id):
+    try:
+        monitor = MonitorService.pause(monitor_id)
+    except ValueError as err:
+        return jsonify({"error": str(err)}), 400
+
+    if not monitor:
+        return jsonify({"error": f"Monitor '{monitor_id}' not found."}), 404
+
+    return jsonify({
+        "id": monitor.id,
+        "status": monitor.status,
+        "message": "Monitoring paused. Send a heartbeat to resume.",
+    }), 200
