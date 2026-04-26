@@ -20,11 +20,11 @@ Source Link: [https://drive.google.com/file/d/1Folxbc0rtolVg-QmOeNo6knG8NzeL0pk/
                  register
                     │
                     ▼
-              ┌──────────-┐
+              ┌───────────┐
          ┌───►│  ACTIVE   │◄─── heartbeat (resets timer)
          │    └─────┬─────┘
          │          │
-         │    ┌─────┴──────-┐
+         │    ┌─────┴───────┐
          │    │             │
          │  pause      timeout expires
          │    │             │
