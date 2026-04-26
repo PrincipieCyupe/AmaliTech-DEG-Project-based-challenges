@@ -52,6 +52,12 @@ There are four layers in the application:
 
 ---
 
+## Prerequisites
+Before anything else, make sure you have these installed:
+- Python 3.9 or higher
+- pip (comes with Python)
+- Git
+
 ## Setup
 
 ```bash
