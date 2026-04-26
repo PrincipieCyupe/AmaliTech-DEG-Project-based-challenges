@@ -46,7 +46,7 @@ There are four layers in the application:
 
 **Service layer** makes all the decisions — state transitions, deadline math, validation.
 
-**Models** define the schema and handle persistence via SQLAlchemy + SQLite.
+**Models** define the schema and handle persistence via SQLAlchemy + SQLite (locally) or PostgreSQL (deployed).
 
 **Scheduler** is a background thread (APScheduler) that wakes up every few seconds and runs a single query: "any ACTIVE monitors whose deadline is in the past?" Matches get marked DOWN and an alert is logged. This polling approach beats per-device timers because it scales to any fleet size with one query and survives server restarts since all state lives in the database.
 
@@ -84,6 +84,40 @@ ALERT_REPEAT_INTERVAL=30 python run.py
 ```
 
 ---
+
+## Deployed Version
+
+The API is deployed on Railway and accessible at:
+
+```
+https://amalipulsecheck.up.railway.app
+```
+
+All endpoints work the same way — just replace `http://localhost:5000` with the Railway URL:
+
+```bash
+curl https://amalipulsecheck.up.railway.app/health
+
+curl -X POST https://amalipulsecheck.up.railway.app/monitors \
+  -H "Content-Type: application/json" \
+  -d '{"id": "device-123", "timeout": 60, "alert_email": "admin@critmon.com"}'
+
+curl -X POST https://amalipulsecheck.up.railway.app/monitors/device-123/heartbeat
+```
+
+**Where do alerts show up when deployed?**
+
+Locally, alerts print to the terminal where the server is running. On Railway, `print()` output goes to Railway's built-in log viewer. 
+Here's the overview screenshot
+
+![Screenshot1](image.png)
+
+![Screenshot2](image-1.png)
+
+![Screenshot3](image-2.png)
+
+---
+
 
 ## API Documentation
 
@@ -311,6 +345,8 @@ Each monitor has a `last_alert_at` timestamp. When the scheduler marks a device 
 pulse-check-api/
 ├── run.py                     # entry point
 ├── requirements.txt
+├── Procfile                   # railway deployment config
+├── run.md                     # testing guide with curl commands
 ├── .gitignore
 ├── architecture_diagram.png
 └── app/
