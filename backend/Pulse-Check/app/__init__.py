@@ -23,9 +23,8 @@ def create_app():
     def health():
         return {"status": "ok"}, 200
 
-    # only start scheduler in the reloader child (or when reloader is off)
-    # to avoid duplicate jobs
-    if not app.debug or os.environ.get("WERKZEUG_RUN_MAIN") == "true":
+
+    if os.environ.get("WERKZEUG_RUN_MAIN") == "true" or not app.debug:
         init_scheduler(app)
 
     return app
