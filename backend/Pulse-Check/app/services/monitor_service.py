@@ -1,3 +1,4 @@
+import json
 from datetime import timedelta
 
 from app.models import db
@@ -25,10 +26,9 @@ class MonitorService:
         db.session.add(monitor)
         db.session.commit()
         return monitor
-    
 
-@staticmethod
-def heartbeat(device_id):
+    @staticmethod
+    def heartbeat(device_id):
         monitor = db.session.get(Monitor, device_id)
         if not monitor:
             return None
@@ -41,3 +41,28 @@ def heartbeat(device_id):
 
         db.session.commit()
         return monitor
+
+    @staticmethod
+    def check_expired_monitors(alert_repeat_interval):
+        now = _utcnow()
+
+        newly_expired = Monitor.query.filter(
+            Monitor.status == MonitorStatus.ACTIVE,
+            Monitor.deadline <= now,
+        ).all()
+
+        for monitor in newly_expired:
+            monitor.status = MonitorStatus.DOWN
+            monitor.deadline = None
+            monitor.updated_at = now
+
+            print(json.dumps({
+                "ALERT": f"Device {monitor.id} is down!",
+                "device_id": monitor.id,
+                "alert_email": monitor.alert_email,
+                "time": now.isoformat() + "Z",
+                "alert_type": "initial",
+            }))
+
+        if newly_expired:
+            db.session.commit()
