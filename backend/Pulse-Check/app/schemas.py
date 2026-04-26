@@ -10,7 +10,7 @@ class CreateMonitorSchema(Schema):
     alert_email = fields.Email(required=True)
 
     @validates("timeout")
-    def validate_timeout(self, value):
+    def validate_timeout(self, value, **kwargs):
         if value < 10:
             raise ValidationError("Must be at least 10 seconds.")
         if value > 86400:
