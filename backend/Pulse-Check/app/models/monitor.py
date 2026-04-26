@@ -25,6 +25,7 @@ class Monitor(db.Model):
     status = db.Column(db.String(16), nullable=False, default=MonitorStatus.ACTIVE)
     deadline = db.Column(db.DateTime, nullable=True)
     last_heartbeat = db.Column(db.DateTime, nullable=True)
+    last_alert_at = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=_utcnow)
     updated_at = db.Column(db.DateTime, default=_utcnow, onupdate=_utcnow)
 
@@ -41,6 +42,7 @@ class Monitor(db.Model):
             "status": self.status,
             "deadline": self.deadline.isoformat() + "Z" if self.deadline else None,
             "last_heartbeat": self.last_heartbeat.isoformat() + "Z" if self.last_heartbeat else None,
+            "last_alert_at": self.last_alert_at.isoformat() + "Z" if self.last_alert_at else None,
             "time_remaining_seconds": remaining,
             "created_at": self.created_at.isoformat() + "Z",
             "updated_at": self.updated_at.isoformat() + "Z",

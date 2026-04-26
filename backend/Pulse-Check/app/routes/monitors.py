@@ -31,6 +31,31 @@ def create_monitor():
 
     return jsonify(monitor.to_dict()), 201
 
+
+@monitors_bp.route("/monitors", methods=["GET"])
+def list_monitors():
+    status_filter = request.args.get("status")
+
+    try:
+        monitors = MonitorService.list_monitors(status_filter)
+    except ValueError as err:
+        return jsonify({"error": str(err)}), 400
+
+    return jsonify({
+        "monitors": [m.to_dict() for m in monitors],
+        "count": len(monitors),
+    }), 200
+
+
+@monitors_bp.route("/monitors/<string:monitor_id>", methods=["GET"])
+def get_monitor(monitor_id):
+    monitor = MonitorService.get_monitor(monitor_id)
+    if not monitor:
+        return jsonify({"error": f"Monitor '{monitor_id}' not found."}), 404
+
+    return jsonify(monitor.to_dict()), 200
+
+
 @monitors_bp.route("/monitors/<string:monitor_id>/heartbeat", methods=["POST"])
 def heartbeat(monitor_id):
     monitor = MonitorService.heartbeat(monitor_id)
@@ -43,6 +68,7 @@ def heartbeat(monitor_id):
         "deadline": monitor.deadline.isoformat() + "Z" if monitor.deadline else None,
         "message": "Heartbeat received. Timer reset.",
     }), 200
+
 
 @monitors_bp.route("/monitors/<string:monitor_id>/pause", methods=["POST"])
 def pause_monitor(monitor_id):
