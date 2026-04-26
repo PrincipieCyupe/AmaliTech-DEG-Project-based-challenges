@@ -20,11 +20,11 @@ Source Link: [https://drive.google.com/file/d/1Folxbc0rtolVg-QmOeNo6knG8NzeL0pk/
                  register
                     │
                     ▼
-              ┌──────────┐
+              ┌───────────┐
          ┌───►│  ACTIVE   │◄─── heartbeat (resets timer)
          │    └─────┬─────┘
          │          │
-         │    ┌─────┴──────┐
+         │    ┌─────┴───────┐
          │    │             │
          │  pause      timeout expires
          │    │             │
@@ -99,7 +99,8 @@ curl http://localhost:5000/health
 
 **Response:**
 
- 
+ <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/0c1dcada-5ae2-43a9-8afd-160832cc7846" />
+
 
 ---
 
@@ -117,7 +118,8 @@ curl -X POST http://localhost:5000/monitors \
 
 **Success (201 Created):**
 
- Screenshot to be added!
+ <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/f0abb908-a76a-433b-874d-36cb81f6693e" />
+
 
 **Duplicate ID (409 Conflict):**
 
@@ -127,7 +129,8 @@ curl -X POST http://localhost:5000/monitors \
   -d '{"id": "device-123", "timeout": 60, "alert_email": "admin@critmon.com"}'
 ```
 
- Screenshot to be added!
+ <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/7ba88900-1d60-4635-a944-a568c93b08f8" />
+
 
 **Validation Error (400 Bad Request):**
 
@@ -137,7 +140,8 @@ curl -X POST http://localhost:5000/monitors \
   -d '{"id": "", "timeout": 5, "alert_email": "not-an-email"}'
 ```
 
- Screenshot to be added!
+ <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/a989ff2e-8fbb-4ce6-8660-68f6d7baf7e2" />
+
 
 ---
 
@@ -153,7 +157,8 @@ curl -X POST http://localhost:5000/monitors/device-123/heartbeat
 
 **Success (200 OK):**
 
-Screenshot to be added!
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/a178efd9-c568-430c-99af-f65eca46e134" />
+
 
 **Device Not Found (404):**
 
@@ -161,7 +166,8 @@ Screenshot to be added!
 curl -X POST http://localhost:5000/monitors/ghost-device/heartbeat
 ```
 
-Screenshot to be added!
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/cd258258-723b-48e3-97fb-129fcd08b54f" />
+
 
 ---
 
@@ -177,7 +183,8 @@ curl -X POST http://localhost:5000/monitors/device-123/pause
 
 **Success (200 OK):**
 
-Screenshot to be added!
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/09cd50b5-2538-4706-bc06-1382063ca948" />
+
 
 **Trying to pause a DOWN device (400 Bad Request):**
 
@@ -185,7 +192,8 @@ Screenshot to be added!
 curl -X POST http://localhost:5000/monitors/device-123/pause
 ```
 
-Screenshot to be added!
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/896e3d56-fa37-4df5-a387-bf7de5151a8b" />
+
 
 ---
 
@@ -201,7 +209,8 @@ curl http://localhost:5000/monitors
 
 **Response (200 OK):**
 
-Screenshot to be added!
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/bd9c6cf9-11dc-4472-b89e-51ce0f639c96" />
+
 
 **Filtered by status:**
 
@@ -209,7 +218,8 @@ Screenshot to be added!
 curl "http://localhost:5000/monitors?status=ACTIVE"
 ```
 
-Screenshot to be added!
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/23a98e99-47fa-4be9-b52c-c7967b5dd714" />
+
 
 ---
 
@@ -225,7 +235,8 @@ curl http://localhost:5000/monitors/device-123
 
 **Response (200 OK):**
 
-Screenshot to be added!
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/5abf6978-43cb-4e70-b51d-9966810de812" />
+
 
 ---
 
@@ -243,7 +254,8 @@ curl -X POST http://localhost:5000/monitors \
 
 **Alert logged in server terminal after 15 seconds:**
 
-Screenshot to be added!
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/985e7d9a-94be-45df-bfb1-955a5a1a2900" />
+
 
 ---
 
@@ -265,9 +277,17 @@ Screenshot to be added!
 curl -X POST http://localhost:5000/monitors/test-expire/heartbeat
 ```
 
-Screenshot to be added!
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/5c3021ad-7467-4788-9d3b-86e19b70e632" />
+
 
 ---
+
+### 8. Database look
+
+Database look with all monitors in the table
+
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/124bb6b4-3eb6-4379-9788-3cfaba95acdc" />
+
 
 ## My Chosen Feature: Repeated Alerts Until Recovery
 
